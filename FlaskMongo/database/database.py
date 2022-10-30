@@ -26,3 +26,4 @@ def dbConnection():
     except ConnectionError:
         print("Error de conexión con la db")
     return db
+ Running
