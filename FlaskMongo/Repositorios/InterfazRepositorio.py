@@ -10,7 +10,7 @@ class InterfazRepositorio(Generic[T]):
     #constructor de la clase
     def __init__(self):
         self.db = dbase.dbConnection()
-        theClass= get_args(self.__orig_bases_[0])
+        theClass= get_args(self.__orig_bases__[0])
         self.collection = theClass[0].__name__.lower()
 
     #obtiene los valores de ref de una lista

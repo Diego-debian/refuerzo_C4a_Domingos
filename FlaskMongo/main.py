@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Flask, request, Response
 from flask import jsonify
 from flask_cors import CORS
@@ -52,7 +51,7 @@ def modificarPartido(id):
     return jsonify(json)
 
 @app.route("/partidos/<string:id>", methods=["DELETE"])
-def modificarPartido():
+def eliminarPartido(id):
     json = miControladorPartido.delete(id)
     return jsonify(json)
 
