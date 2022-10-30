@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 from Controladores.PartidoControlador import PartidoControlador
 from Controladores.CandidatoControlador import CandidatoControlador
-
+from Controladores.MesaControlador import MesaControlador
 
 
 app = Flask(__name__)
@@ -17,6 +17,7 @@ cors = CORS(app)
 ##############################
 miControladorPartido = PartidoControlador()
 miControladorCandidato = CandidatoControlador()
+miControladorMesa = MesaControlador()
 
 ####################################
 ##    PROBAR EL SERVICIO          ##
@@ -91,6 +92,38 @@ def eliminarCandidato(id_candidato):
 def asignarPartidoCandidato(id_candidato, id_partido):
     json = miControladorCandidato.asignarCandidato(id_candidato, id_partido)
     return jsonify(json)
+
+#####################################
+##           ENDPOINT MESAS        ##
+#####################################
+
+@app.route("/mesas", methods=["GET"])
+def getMesas():
+    json = miControladorMesa.index()
+    return jsonify(json)
+
+@app.route("/mesas", methods=["POST"])
+def crearMesa():
+    data = request.get_json()
+    json = miControladorMesa.create(data)
+    return jsonify(json)
+
+@app.route("/mesas/<string:id>", methods=["GET"])
+def getMesa(id):
+    json = miControladorMesa.show(id)
+    return jsonify(json)
+
+@app.route("/mesas/<string:id>", methods=["PUT"])
+def modificarMesa(id):
+    data = request.get_json()
+    json = miControladorMesa.update(id, data)
+    return jsonify(json)
+
+@app.route("/mesas/<string:id>", methods=["DELETE"])
+def eliminarMesa(id):
+    json = miControladorMesa.delete(id)
+    return jsonify(json)
+
 
 
 if __name__ == "__main__":
