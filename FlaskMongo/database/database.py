@@ -21,7 +21,7 @@ def dbConnection():
         #conexión atlas
         client = MongoClient(dataConfig['MONGO_URI_SERVER'], tlsCAFile = ca)
         #Conexión local
-        client = MongoClient(dataConfig['MONGO_URI_LOCAL'], dataConfig['LOCAL_PORT'])
+        #client = MongoClient(dataConfig['MONGO_URI_LOCAL'], dataConfig['LOCAL_PORT'])
         db = client["ciclo4_votaciones_domingo"]
     except ConnectionError:
         print("Error de conexión con la db")
