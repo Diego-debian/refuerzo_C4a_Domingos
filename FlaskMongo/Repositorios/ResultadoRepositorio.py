@@ -18,8 +18,8 @@ class ResultadoRepositorio(InterfazRepositorio[Resultado]):
         query = {
             "$group":{
                 "_id": "$candidato",
-                "max": {
-                    "$max": "$cedula"
+                "Total_votaciones_por_id": {
+                    "$sum": 1
                 },
                 "doc": {
                     "$first": "$$ROOT"
