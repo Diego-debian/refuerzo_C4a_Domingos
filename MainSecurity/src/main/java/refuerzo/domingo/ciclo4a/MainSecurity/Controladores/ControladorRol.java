@@ -35,6 +35,28 @@ public class ControladorRol {
     }
 
     @PutMapping("{id}")
-    public Rol update()
+    public Rol update(@PathVariable String id, @RequestBody Rol infoRol){
+        Rol rolActual = miRepositorioRol
+                .findById(id)
+                .orElse(null);
+        if (rolActual != null){
+            rolActual.setNombre(infoRol.getNombre());
+            rolActual.setDescripcion(infoRol.getDescripcion());
+            return miRepositorioRol.save(rolActual);
+        }else{
+            return null;
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable String id){
+        Rol rolActual = miRepositorioRol
+                .findById(id)
+                .orElse(null);
+        if(rolActual!=null){
+            miRepositorioRol.delete(rolActual);
+        }
+    }
 
 }
