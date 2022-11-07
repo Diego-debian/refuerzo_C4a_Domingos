@@ -28,6 +28,8 @@ public class ControladorUsuario {
     public List<Usuario> index(){
         return miRepositorioUsuario.findAll();
     }
+
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Usuario create(@RequestBody Usuario infoUsuario){
@@ -100,11 +102,12 @@ public class ControladorUsuario {
     public Usuario validate(@RequestBody Usuario infoUsuario,
                             final HttpServletResponse response)throws IOException{
         Usuario usuarioActual = miRepositorioUsuario.getUserByMail(infoUsuario.getCorreo());
-        if(usuarioActual!=null && usuarioActual.getContrasena()
+        if(usuarioActual != null && usuarioActual.getContrasena()
                 .equals(convertirSHA256(infoUsuario.getCorreo()))){
             usuarioActual.setContrasena((""));
             return usuarioActual;
         }else{
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return null;
         }
     }
@@ -120,7 +123,7 @@ public class ControladorUsuario {
         byte[] hash = md.digest(password.getBytes());
         StringBuffer sb = new StringBuffer();
         for(byte b: hash){
-            sb.append(String.format("%20", b));
+            sb.append(String.format("%20x", b));
         }
         return sb.toString();
     }
