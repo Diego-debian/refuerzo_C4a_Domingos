@@ -42,6 +42,66 @@ def create_token():
             "Message": "correo o contraseña invalidos. "
         }), 401
 
+######################################
+##            MIDDLEWARE            ##
+######################################
+def limpiarURL(url):
+    partes = request.path.split("/")
+    for laParte in partes:
+        if re.search('\\d', laParte):
+            url = url.replace(laParte, "?")
+    return url
+
+def validarPermiso(endPoint, metodo, idRol):
+    url = dataConfig["url-backend-security"]+ "/permisos-roles/validar-permiso/rol/"+str(idRol)
+    tienePermiso= False
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    body = {
+        "url": endPoint,
+        "metodo": metodo
+    }
+    response = requests.get(url, json=body, headers=headers)
+    try: 
+        data = response.json()
+        if("_id" in data):
+            tienePermiso = True
+    except:
+        pass
+    return tienePermiso
+
+@app.before_request
+def before_request_callback():
+    endPoint = limpiarURL(request.path)
+    excludedRoutes = ["/login"]
+    if excludedRoutes.__contains__(request.path):
+        print("ruta excluida ", request.path)
+        pass
+    elif verify_jwt_in_request():
+        usuario = get_jwt_identity()
+        if usuario["rol"] is not None:
+            tienePermiso =  validarPermiso(endPoint,
+                request.method, usuario["rol"]["_id"])
+            if not tienePermiso:
+                return jsonify({
+                    "message ": "usted no tiene permisos"
+                }), 401
+        else:
+            return jsonify({
+                    "message ": "usted no es el usuario o verifiquelo"
+                }), 401
+
+####################################
+##        ENDPOINTS DE MESAS      ##
+####################################
+@app.route("/mesas", methods=["GET"])
+def getMesas():
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/mesas'
+    response = requests.get(url, headers=headers)
+    Json = response.json()
+    return jsonify(Json)
+
+
 
 ####################################
 ##   TEST O PRUEBA DEL SERVICIO   ##

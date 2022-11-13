@@ -6,5 +6,5 @@ import refuerzo.domingo.ciclo4a.MainSecurity.Modelos.Usuario;
 
 public interface RepositorioUsuario extends MongoRepository<Usuario, String> {
     @Query("{'correo':?0}")
-    public Usuario getUserByMail(String correo);
+    Usuario getUserByMail(String correo);
 }
