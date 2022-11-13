@@ -1,0 +1,6 @@
+{
+    "url-backend": "127.0.0.1",
+    "port": "7777",
+    "url-backend-security": "http://127.0.0.1:8080",
+    "url-backend-votes": "http://127.0.0.1:9000"
+}
