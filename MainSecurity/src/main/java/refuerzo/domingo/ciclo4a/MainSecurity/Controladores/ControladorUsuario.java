@@ -3,6 +3,7 @@ package refuerzo.domingo.ciclo4a.MainSecurity.Controladores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import refuerzo.domingo.ciclo4a.MainSecurity.Modelos.Rol;
 import refuerzo.domingo.ciclo4a.MainSecurity.Modelos.Usuario;
 import refuerzo.domingo.ciclo4a.MainSecurity.Repositorios.RepositorioRol;
 import refuerzo.domingo.ciclo4a.MainSecurity.Repositorios.RepositorioUsuario;
