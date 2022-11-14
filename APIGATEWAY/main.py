@@ -101,7 +101,67 @@ def getMesas():
     Json = response.json()
     return jsonify(Json)
 
+@app.route("/mesas", methods=["POST"])
+def crearMesa():
+    data = request.get_json()
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/mesas'
+    response = requests.post(url, headers=headers, json=data)
+    Json = response.json()
+    return jsonify(Json)
 
+@app.route("/mesas/<string:id>", methods=["GET"])
+def getMesa(id):
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/mesas/'+id
+    response = requests.get(url, headers=headers)
+    Json = response.json()
+    return jsonify(Json)
+
+@app.route("/mesas/<string:id>", methods=["PUT"])
+def modificarMesa(id):
+    data = request.get_json()
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/mesas/'+id
+    response = requests.put(url, headers=headers, json=data)
+    Json = response.json()
+    return jsonify(Json)
+
+@app.route("/mesas/<string:id>", methods=["DELETE"])
+def deleteMesa(id):
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/mesas/'+id
+    response = requests.delete(url, headers=headers)
+    Json = response.json()
+    return jsonify(Json)
+
+####################################
+##     ENDPOINTS DE PARTIDOS      ##
+####################################
+@app.route("/partidos", methods=["GET"])
+def getPartidos():
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/partidos'
+    response = requests.get(url, headers=headers)
+    Json = response.json()
+    return jsonify(Json)
+
+@app.route("/partidos", methods=["POST"])
+def crearPartido():
+    data = request.get_json()
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/partidos'
+    response = requests.post(url, headers=headers, json=data)
+    Json = response.json()
+    return jsonify(Json)
+
+@app.route("/mesas/<string:id>", methods=["GET"])
+def getMesa(id):
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    url = dataConfig["url-backend-votes"]+'/mesas/'+id
+    response = requests.get(url, headers=headers)
+    Json = response.json()
+    return jsonify(Json)
 
 ####################################
 ##   TEST O PRUEBA DEL SERVICIO   ##
