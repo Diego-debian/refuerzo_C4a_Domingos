@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header>
+        <img class="mx-auto d-block" src="http://www.mintic.gov.co/portal/715/articles-150770_foto_marquesina.thumb_principal.jpg" alt="Login">
+        <h1>Login: </h1>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-3">
+            <label>Correo:</label>
+          </div>
+          <div class="col-lg-9">
+            <input type="text" [(ngModel)]="correo" class="form-control" fullWidth placeholder="Ingrese tu correo">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-3">
+            <label>Contraseña:</label>
+          </div>
+          <div class="col-lg-9">
+            <input type="password" [(ngModel)]="contrasena" class="form-control" fullWidth
+              placeholder="Ingresa tu contraseña">
+          </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary btn-block" (click)="login()">Login</button>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

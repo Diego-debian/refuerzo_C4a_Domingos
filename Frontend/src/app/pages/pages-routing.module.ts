@@ -11,6 +11,11 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
+      path: 'seguridad',
+      loadChildren: () => import('./seguridad/seguridad.module')
+      .then(m => m.SeguridadModule),
+      },
+    {
       path: 'dashboard',
       component: ECommerceComponent,
     },
