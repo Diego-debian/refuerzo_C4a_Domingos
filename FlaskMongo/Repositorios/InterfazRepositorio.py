@@ -1,19 +1,18 @@
-from hashlib import new
 from bson import DBRef
 from bson.objectid import ObjectId
-from typing import TypeVar, Generic, List,  get_origin, get_args
+from typing import TypeVar, Generic, List, get_origin, get_args
 import json
 import database.database as dbase
 T = TypeVar('T')
 
 class InterfazRepositorio(Generic[T]):
-    #constructor de la clase
+    #Constructor
     def __init__(self):
         self.db = dbase.dbConnection()
-        theClass= get_args(self.__orig_bases__[0])
+        theClass = get_args(self.__orig_bases__[0])
         self.collection = theClass[0].__name__.lower()
-
-    #obtiene los valores de ref de una lista
+    
+    #Trae el valor buscado
     def getValuesDBRefFromList(self, theList):
         newList = []
         laColeccion = self.db[theList[0]._id.collection]
@@ -22,7 +21,7 @@ class InterfazRepositorio(Generic[T]):
             value["_id"] = value["_id"].__str__()
             newList.append(value)
         return newList
-    #Obtiene los valores de dbref
+
     def getValuesDBRef(self, x):
         keys = x.keys()
         for k in keys:
@@ -32,12 +31,13 @@ class InterfazRepositorio(Generic[T]):
                 valor["_id"] = valor["_id"].__str__()
                 x[k] = valor
                 x[k] = self.getValuesDBRef(x[k])
-            elif isinstance(x[k], list) and len(x[k])>0:
-                x[k]= self.getValuesDBRefFromList(x[k])
-            elif isinstance(x[k], dict):
-                x[k]= self.getValuesDBRef(x[k])
+            elif isinstance(x[k], list) and len(x[k]) > 0:
+                x[k] = self.getValuesDBRefFromList(x[k])
+            elif isinstance(x[k], dict) :
+                x[k] = self.getValuesDBRef(x[k])
         return x
-    #Función buscar por Id
+
+    #Función que busca un Id
     def findById(self, id):
         laColeccion = self.db[self.collection]
         x = laColeccion.find_one({"_id": ObjectId(id)})
@@ -48,7 +48,7 @@ class InterfazRepositorio(Generic[T]):
             x["_id"] = x["_id"].__str__()
         return x
 
-    #damos formato a una lista
+    # recibir la lista y devolver la lista formateada
     def formatList(self, x):
         newList = []
         for item in x:
@@ -57,17 +57,19 @@ class InterfazRepositorio(Generic[T]):
         if len(newList) == 0:
             newList = x
         return newList
-    #transformamos los objetos en sus IDs
+
+    #transformar los objetos de las listas
     def transformObjectIds(self, x):
         for attribute in x.keys():
             if isinstance(x[attribute], ObjectId):
                 x[attribute] = x[attribute].__str__()
             elif isinstance(x[attribute], list):
-                x[attribute]= self.formatList(x[attribute])
-            elif isinstance(x[attribute], dict):
-                x[attribute]= self.transformObjectIds(x[attribute])
+                x[attribute] = self.formatList(x[attribute])
+            elif  isinstance(x[attribute], dict):
+                x[attribute]=self.transformObjectIds(x[attribute])
         return x
-    #Buscar todo en una collection
+
+    """ Función de busqueda de todos los ids """
     def findAll(self):
         laColeccion = self.db[self.collection]
         data = []
@@ -77,53 +79,58 @@ class InterfazRepositorio(Generic[T]):
             x = self.getValuesDBRef(x)
             data.append(x)
         return data
-    #Update
+
+    # Función actualizar
     def update(self, id, item: T):
         _id = ObjectId(id)
         laColeccion = self.db[self.collection]
         delattr(item, "_id")
         item = item.__dict__
         updateItem = {"$set": item}
-        x = laColeccion.update_one({"_id":_id}, updateItem)
-        return {"updated_count":x.matched_count}
-    #delete
+        x = laColeccion.update_one({"_id": _id}, updateItem)
+        return {"updated_count": x.matched_count}
+
+    # Borrar algun documento
     def delete(self, id):
         laColeccion = self.db[self.collection]
         cuenta = laColeccion.delete_one({"_id": ObjectId(id)}).deleted_count
         return {"deleted_count": cuenta}
-    #obtener objetos desde una dbref
-    def ObjectToDBRef(self, item: T):
+
+    #convierte los objetos de la db a sus referencias 
+    def ObjectToDBRefs(self, item: T):
         nameCollection = item.__class__.__name__.lower()
         return DBRef(nameCollection, ObjectId(item._id))
-    #transforma las DBRefs
+
+    #transforma las referencias
     def transformRefs(self, item):
         theDict = item.__dict__
         keys = list(theDict.keys())
         for k in keys:
-            if theDict[k].__str__().count("object") ==1:
-                newObject = self.ObjectToDBRef(getattr(item,k))
+            if theDict[k].__str__().count("object") == 1:
+                newObject = self.ObjectToDBRefs(getattr(item,k))
                 setattr(item, k, newObject)
         return item
-    #guardar
+    #Guardar un documento
     def save(self, item: T):
         laColeccion = self.db[self.collection]
         elId = ""
-        item = self.transformRefs(item)
+        item  = self.transformRefs(item)
         if hasattr(item, "_id") and item._id != "":
             elId = item._id
             _id = ObjectId(elId)
-            laColeccion  = self.db[self.collection]
+            laColeccion =  self.db[self.collection]
             delattr(item, "_id")
             item = item.__dict__
-            updateItem = {"$set":item}
+            updateItem =  {"$set":item}
             x = laColeccion.update_one({"_id": _id}, updateItem)
-        else: 
+        else:
             _id = laColeccion.insert_one(item.__dict__)
             elId = _id.inserted_id.__str__()
-        x = laColeccion.find_one({"_id":ObjectId(elId)})
+        x  = laColeccion.find_one({"_id": ObjectId(elId)})
         x["_id"] = x["_id"].__str__()
         return self.findById(elId)
-    #Querys especificos
+    
+    #Para los Query normalitos
     def query(self, theQuery):
         laColeccion = self.db[self.collection]
         data = []
@@ -133,7 +140,8 @@ class InterfazRepositorio(Generic[T]):
             x = self.getValuesDBRef(x)
             data.append(x)
         return data
-    #Query agregación
+    
+    #Para los query de agragación o relación
     def queryAggregation(self, theQuery):
         laColeccion = self.db[self.collection]
         data = []
@@ -144,4 +152,3 @@ class InterfazRepositorio(Generic[T]):
             data.append(x)
         return data
 
-    

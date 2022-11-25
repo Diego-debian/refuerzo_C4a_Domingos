@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     let elUsuario: Usuario = {
       correo: this.correo,
       contrasena: this.contrasena
-    }
+    };
     this.miServicioSeguridad.login(elUsuario).subscribe(
       data => {
         this.router.navigate(['pages/dashboard']);
