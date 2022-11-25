@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-content class="form1">
+    <p>
+      <mat-form-field appearance="fill" class="fill1">
+        <img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.mm1p36_nJKeezJdhBA2bIQHaCb%26pid%3DApi&f=1&ipt=f3849dfad6f2751fe3cdfd597ca2831f4286cc0150d370d8d0dfd1cb4d3a362e&ipo=images">
+        <mat-card-title>Proyecto Ciclo 4 </mat-card-title>
+        <mat-card-subtitle>UNAL y Misión TIC 2022</mat-card-subtitle>
+        <!--input del seudonimo-->
+        <input matInput placeholder="ingrese su alias" [(ngModel)]="seudonimo"
+        type="text" required="true">
+        <br>
+        <input matInput placeholder="ingrese su correo" [(ngModel)]="correo"
+        type="email" required="true">
+        <br>
+        <input matInput placeholder="ingrese su contraseña" [(ngModel)]="contrasena"
+        type="password" required="true">
+        <table>
+          <tr>
+            <th> <button mat-raised-button color="primary" class="btnLogin"
+              (click)="btnLogin()">Ingresar</button>
+            </th>
+            <th><button mat-raised-button color="accent" class="btnRegister"
+              (click)="btnRegister()">Registro</button>
+            </th>
+          </tr>
+        </table>
+      </mat-form-field>
+    </p>
+  </mat-card-content>
+
+
+</mat-card>

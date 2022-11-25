@@ -1,0 +1,31 @@
+<app-my-head></app-my-head>
+
+<mat-card class="card2">
+  <mat-card-content>
+    <mat-card-title>Candidatos</mat-card-title>
+    <table>
+      <tr>
+        <th *ngFor="let head of tableHead">
+           {{head}}
+          </th>
+          <th>
+            <button mat-raised-button color="primary" (click)="regresar()">Regresar</button>
+            <button mat-raised-button color="primary" (click)="agregar()">Agregar</button>
+
+          </th>
+      </tr>
+
+      <tr *ngFor="let candidato of candidatos">
+        <td>{{candidato.cedula}}</td>
+        <td>{{candidato.numero_resolucion}}</td>
+        <td>{{candidato.nombre}}</td>
+        <td>{{candidato.apellido}}</td>
+        <button mat-raised-button color="accent" (click)="editar(candidato._id)">Editar</button>
+        <button mat-raised-button color="warn" (click)="eliminar(candidato._id)">Borrar</button>
+      </tr>
+    </table>
+
+  </mat-card-content>
+
+
+</mat-card>
