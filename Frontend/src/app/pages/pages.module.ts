@@ -5,6 +5,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
 import { HeadhomeModule } from './headhome/headhome.module';
 import { SeguridadModule } from './seguridad/seguridad.module';
+import { VotacionesModule } from './votaciones/votaciones.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SeguridadModule } from './seguridad/seguridad.module';
     CommonModule,
     PagesRoutingModule,
     HeadhomeModule,
-    SeguridadModule
+    SeguridadModule,
+    VotacionesModule
   ],
   exports:[PagesComponent]
 })

@@ -1,7 +1,5 @@
 <mat-toolbar>
 
-
-
   <!--Boton del menu-->
   <button mat-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
@@ -14,7 +12,8 @@
   </mat-menu>
 
 
-  <span>Proyecto ciclo 4a</span>
+  <span *ngIf="user_name == ''">Proyecto ciclo 4a</span>
+  <span *ngIf="user_name != ''">Bienvenido {{user_name}}</span>
 
   <span class="example-spacer"></span>
   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">

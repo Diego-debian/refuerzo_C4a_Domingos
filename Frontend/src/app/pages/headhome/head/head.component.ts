@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
 
@@ -8,7 +8,8 @@ import { SeguridadService } from 'src/app/servicios/seguridad.service';
   styleUrls: ['./head.component.scss']
 })
 export class HeadComponent implements OnInit {
-
+  @Input()
+  user_name="";
   constructor(private router:Router,private miServicioLogin:SeguridadService) { }
 
   ngOnInit(): void {

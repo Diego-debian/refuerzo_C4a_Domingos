@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path:'seguridad',
     loadChildren:()=>import('./seguridad/seguridad.module').then(m=>m.SeguridadModule)
+  },
+  {
+    path:'votaciones',
+    loadChildren:()=>import('./votaciones/votaciones.module').then(m=>m.VotacionesModule)
   }
 ];
 

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class FormulariologinComponent implements OnInit {
  correo:string="";
  @Input()
   contrasena:string="";
-  constructor(private miServicioSeguridad:SeguridadService) { }
+  constructor(private miServicioSeguridad:SeguridadService,
+    private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -27,10 +29,9 @@ export class FormulariologinComponent implements OnInit {
     this.miServicioSeguridad.login(datos).subscribe(
       data => {
         this.miServicioSeguridad.guardarDatosSesion(data),
-        //alert(`Bienvenido usuario ${datos.seudonimo}`)
-          this.miServicioSeguridad.loginMesas().subscribe(
-            datos => alert(JSON.stringify(datos))
-          )
+        alert(`Bienvenido usuario  ${datos.seudonimo}`),
+        this.router.navigateByUrl(`votaciones/home/${datos.seudonimo}`);
+
       },
       error=> {alert("Error de credenciales Revise su usuario y contraseña")}
     );
