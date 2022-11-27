@@ -10,7 +10,7 @@
   <!--Llama el menu-->
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="btnIngresar()">Ingresar</button>
-    <button mat-menu-item>Salir</button>
+    <button mat-menu-item (click)="btnIngresar()">Salir</button>
   </mat-menu>
 
 
@@ -20,6 +20,7 @@
   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
     <mat-icon>favorite</mat-icon>
   </button>
+
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
     <mat-icon>share</mat-icon>
   </button>

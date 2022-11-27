@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SeguridadService } from 'src/app/servicios/seguridad.service';
 
 @Component({
   selector: 'app-head',
@@ -8,13 +9,13 @@ import { Router } from '@angular/router';
 })
 export class HeadComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private miServicioLogin:SeguridadService) { }
 
   ngOnInit(): void {
   }
   btnIngresar(){
-    this.router.navigateByUrl('seguridad')
+    this.router.navigateByUrl('seguridad');
+    this.miServicioLogin.logout();
+
   }
-
-
 }
